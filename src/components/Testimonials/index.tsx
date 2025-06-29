@@ -44,7 +44,7 @@ const testimonialData: Testimonial[] = [
     name: "Neha Gupta",
     designation: "Data Analyst @DataTech",
     content:
-      "Exceptional service quality! Job Care's team provided excellent career counseling and helped me switch from teaching to data analytics. Their support throughout the journey was incredible.",
+      "Exceptional service quality! Job Care team provided excellent career counseling and helped me switch from teaching to data analytics. Their support throughout the journey was incredible.",
     image: "/images/testimonials/author-02.png",
     star: 5,
   },
@@ -61,23 +61,28 @@ const testimonialData: Testimonial[] = [
 
 const Testimonials = () => {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900 overflow-hidden">
+    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-200/30 dark:bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-200/30 dark:bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/4 left-1/4 h-72 w-72 animate-pulse rounded-full bg-blue-200/30 blur-3xl dark:bg-blue-500/20"></div>
+        <div
+          className="absolute right-1/4 bottom-1/4 h-96 w-96 animate-pulse rounded-full bg-purple-200/30 blur-3xl dark:bg-purple-500/20"
+          style={{ animationDelay: "2s" }}
+        ></div>
       </div>
 
-      <div className="container relative">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full text-blue-600 dark:text-blue-400 text-sm font-semibold mb-6">
+      <div className="relative container">
+        <div className="mb-16 text-center">
+          <div className="mb-6 inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
             ⭐ Client Success Stories
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-6">
+          <h2 className="mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-4xl font-bold text-transparent md:text-5xl dark:from-white dark:to-gray-300">
             What Our Clients Say About Us
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Discover how Job Care Consultancy has transformed careers and helped thousands of professionals find their dream jobs in Patna across all industries.
+          <p className="mx-auto max-w-3xl text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+            Discover how Job Care Consultancy has transformed careers and helped
+            thousands of professionals find their dream jobs in Patna across all
+            industries.
           </p>
         </div>
 
@@ -89,27 +94,42 @@ const Testimonials = () => {
 
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 md:grid-cols-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">4.9/5</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Average Rating</div>
+              <div className="mb-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
+                4.9/5
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Average Rating
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">1000+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Happy Clients</div>
+              <div className="mb-2 text-3xl font-bold text-green-600 dark:text-green-400">
+                1000+
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Happy Clients
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">15 Days</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Avg. Placement Time</div>
+              <div className="mb-2 text-3xl font-bold text-purple-600 dark:text-purple-400">
+                15 Days
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Avg. Placement Time
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">98%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
+              <div className="mb-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
+                98%
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Success Rate
+              </div>
             </div>
           </div>
         </div>
       </div>
-
     </section>
   );
 };

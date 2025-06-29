@@ -70,7 +70,7 @@ const Footer = () => {
               </div>
             </Link>
             <p className="mb-6 max-w-md leading-relaxed text-gray-300">
-              Patna's premier job consultancy helping professionals find their
+              Patna premier job consultancy helping professionals find their
               dream careers since 2015. We connect talented individuals with
               leading companies across all industries.
             </p>

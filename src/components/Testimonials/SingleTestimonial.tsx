@@ -53,7 +53,7 @@ const SingleTestimonial = ({ testimonial }: { testimonial: Testimonial }) => {
 
         {/* Content */}
         <blockquote className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-6 italic">
-          "{content}"
+          &ldquo;{content}&rdquo;
         </blockquote>
 
         {/* Author Info */}
