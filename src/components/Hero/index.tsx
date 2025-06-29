@@ -393,7 +393,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900">
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 dark:from-gray-900 dark:via-slate-900 dark:to-black">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 h-72 w-72 animate-pulse rounded-full bg-cyan-500/20 blur-3xl"></div>
@@ -410,7 +410,7 @@ const Hero = () => {
       <div className="relative container mx-auto flex min-h-screen items-center justify-center px-4 pt-24 pb-16">
         <div className="mx-auto w-full max-w-4xl text-center">
           {/* Badge */}
-          <div className="mb-4 inline-flex items-center rounded-full border border-cyan-500/20 bg-white/10 px-4 py-2 text-sm font-semibold text-cyan-300 backdrop-blur-sm">
+          <div className="mb-4 inline-flex items-center rounded-full border border-cyan-500/20 bg-white/10 dark:bg-gray-800/30 px-4 py-2 text-sm font-semibold text-cyan-300 dark:text-cyan-400 backdrop-blur-sm">
             <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-green-400"></span>
             #1 Job Consultancy in Patna
           </div>
@@ -427,7 +427,7 @@ const Hero = () => {
           </p>
 
           {/* Search Bar */}
-          <div className="mx-auto mb-4 max-w-3xl rounded-2xl bg-white/95 p-4 shadow-2xl backdrop-blur-sm">
+          <div className="mx-auto mb-4 max-w-3xl rounded-2xl bg-white/95 dark:bg-gray-800/95 p-4 shadow-2xl backdrop-blur-sm">
             <div className="grid gap-4 md:grid-cols-3">
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -450,7 +450,7 @@ const Hero = () => {
                   placeholder="Job title, keywords..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 py-4 pr-4 pl-10 text-gray-900 placeholder-gray-500 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 py-4 pr-4 pl-10 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -481,7 +481,7 @@ const Hero = () => {
                   placeholder="Location"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 py-4 pr-4 pl-10 text-gray-900 placeholder-gray-500 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 py-4 pr-4 pl-10 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -500,25 +500,25 @@ const Hero = () => {
               <div className="mb-1 text-2xl font-bold text-cyan-400 md:text-3xl">
                 5000+
               </div>
-              <div className="text-sm text-gray-300">Jobs Placed</div>
+              <div className="text-sm text-gray-300 dark:text-gray-400">Jobs Placed</div>
             </div>
             <div className="text-center">
               <div className="mb-1 text-2xl font-bold text-green-400 md:text-3xl">
                 500+
               </div>
-              <div className="text-sm text-gray-300">Companies</div>
+              <div className="text-sm text-gray-300 dark:text-gray-400">Companies</div>
             </div>
             <div className="text-center">
               <div className="mb-1 text-2xl font-bold text-purple-400 md:text-3xl">
                 98%
               </div>
-              <div className="text-sm text-gray-300">Success Rate</div>
+              <div className="text-sm text-gray-300 dark:text-gray-400">Success Rate</div>
             </div>
             <div className="text-center">
               <div className="mb-1 text-2xl font-bold text-orange-400 md:text-3xl">
                 15+
               </div>
-              <div className="text-sm text-gray-300">Industries</div>
+              <div className="text-sm text-gray-300 dark:text-gray-400">Industries</div>
             </div>
           </div>
 
@@ -532,7 +532,7 @@ const Hero = () => {
             </Link>
             <Link
               href="#about"
-              className="rounded-xl border-2 border-white/30 px-8 py-4 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
+              className="rounded-xl border-2 border-white/30 dark:border-gray-600/50 px-8 py-4 font-semibold text-white dark:text-gray-200 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 dark:hover:bg-gray-800/20"
             >
               Learn More
             </Link>
@@ -540,8 +540,8 @@ const Hero = () => {
 
           {/* Search Results */}
           {showResults && (
-            <div className="mx-auto mt-8 max-w-4xl rounded-2xl bg-white/95 p-6 shadow-2xl backdrop-blur-sm">
-              <h3 className="mb-4 text-xl font-bold text-gray-900">
+            <div className="mx-auto mt-8 max-w-4xl rounded-2xl bg-white/95 dark:bg-gray-800/95 p-6 shadow-2xl backdrop-blur-sm">
+              <h3 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
                 {searchResults.length} Jobs Found
               </h3>
               {searchResults.length > 0 ? (
@@ -549,15 +549,15 @@ const Hero = () => {
                   {searchResults.map((job) => (
                     <div
                       key={job.id}
-                      className="rounded-lg border border-gray-200 p-4 transition-shadow hover:shadow-md"
+                      className="rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700/50 p-4 transition-shadow hover:shadow-md"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div className="flex-1 text-left">
-                          <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                             {job.title}
                           </h4>
-                          <p className="text-gray-600 mb-2 text-left">{job.company}</p>
-                          <p className="flex items-center text-sm text-gray-500">
+                          <p className="text-gray-600 dark:text-gray-300 mb-2 text-left">{job.company}</p>
+                          <p className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                             <svg
                               className="mr-1 h-4 w-4 flex-shrink-0"
                               fill="none"
@@ -590,14 +590,14 @@ const Hero = () => {
                   ))}
                 </div>
               ) : (
-                <p className="py-8 text-center text-gray-600">
+                <p className="py-8 text-center text-gray-600 dark:text-gray-400">
                   No jobs found matching your criteria. Try different keywords
                   or location.
                 </p>
               )}
               <button
                 onClick={() => setShowResults(false)}
-                className="mt-4 font-medium text-blue-600 hover:text-blue-800"
+                className="mt-4 font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
               >
                 Close Results
               </button>

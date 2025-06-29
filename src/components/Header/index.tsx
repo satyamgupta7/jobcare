@@ -52,9 +52,7 @@ const Header = () => {
               } `}
             >
               <div className="flex items-center space-x-2">
-                <span className="text-2xl font-bold text-white">
-                  JobCare
-                </span>
+                <span className="text-2xl font-bold text-white">JobCare</span>
                 <span className="text-sm font-semibold text-white">
                   Consultancy
                 </span>
@@ -101,8 +99,8 @@ const Header = () => {
                           href={menuItem.path}
                           className={`relative flex py-3 text-base font-medium transition-all duration-200 lg:mr-0 lg:inline-flex lg:px-4 lg:py-6 ${
                             usePathName === menuItem.path
-                              ? "text-cyan-600 lg:after:absolute lg:after:bottom-0 lg:after:left-1/2 lg:after:h-0.5 lg:after:w-full lg:after:-translate-x-1/2 lg:after:bg-gradient-to-r lg:after:from-cyan-500 lg:after:to-blue-500 dark:text-cyan-400"
-                              : "text-slate-700 hover:text-cyan-600 lg:hover:after:absolute lg:hover:after:bottom-0 lg:hover:after:left-1/2 lg:hover:after:h-0.5 lg:hover:after:w-0 lg:hover:after:w-full lg:hover:after:-translate-x-1/2 lg:hover:after:bg-gradient-to-r lg:hover:after:from-cyan-500 lg:hover:after:to-blue-500 lg:hover:after:transition-all lg:hover:after:duration-300 dark:text-gray-300 dark:hover:text-cyan-400"
+                              ? "text-cyan-600 lg:after:absolute lg:after:bottom-4 lg:after:left-1/2 lg:after:h-0.5 lg:after:w-1/2 lg:after:-translate-x-1/2 lg:after:bg-gradient-to-r lg:after:from-cyan-500 lg:after:to-blue-500 dark:text-cyan-400"
+                              : "text-slate-700 hover:text-cyan-600 lg:hover:after:absolute lg:hover:after:bottom-4 lg:hover:after:left-1/2 lg:hover:after:h-0.5 lg:hover:after:w-0 lg:hover:after:w-1/2 lg:hover:after:-translate-x-1/2 lg:hover:after:bg-gradient-to-r lg:hover:after:from-cyan-500 lg:hover:after:to-blue-500 lg:hover:after:transition-all lg:hover:after:duration-300 dark:text-gray-300 dark:hover:text-cyan-400"
                           }`}
                         >
                           {menuItem.title}
@@ -111,16 +109,16 @@ const Header = () => {
                         <>
                           <p
                             onClick={() => handleSubmenu(index)}
-                            className="relative flex cursor-pointer items-center justify-between py-3 text-base font-medium text-slate-700 transition-all duration-200 hover:text-cyan-600 lg:mr-0 lg:inline-flex lg:px-4 lg:py-6 lg:hover:after:absolute lg:hover:after:bottom-0 lg:hover:after:left-1/2 lg:hover:after:h-0.5 lg:hover:after:w-0 lg:hover:after:w-full lg:hover:after:-translate-x-1/2 lg:hover:after:bg-gradient-to-r lg:hover:after:from-cyan-500 lg:hover:after:to-blue-500 lg:hover:after:transition-all lg:hover:after:duration-300 dark:text-gray-300 dark:hover:text-cyan-400"
+                            className="relative flex cursor-pointer items-center justify-between py-3 text-base font-medium text-slate-700 transition-all duration-200 hover:text-cyan-600 lg:mr-0 lg:inline-flex lg:px-4 lg:py-6 lg:hover:after:absolute lg:hover:after:bottom-4 lg:hover:after:left-1/2 lg:hover:after:h-0.5 lg:hover:after:w-0 lg:hover:after:w-1/2 lg:hover:after:-translate-x-1/2 lg:hover:after:bg-gradient-to-r lg:hover:after:from-cyan-500 lg:hover:after:to-blue-500 lg:hover:after:transition-all lg:hover:after:duration-300 dark:text-gray-300 dark:hover:text-cyan-400"
                           >
                             {menuItem.title}
                             <span className="pl-3">
-                              <svg 
-                                width="25" 
-                                height="24" 
+                              <svg
+                                width="25"
+                                height="24"
                                 viewBox="0 0 25 24"
                                 className={`transition-transform duration-200 group-hover:rotate-180 ${
-                                  openIndex === index ? 'rotate-180' : ''
+                                  openIndex === index ? "rotate-180" : ""
                                 }`}
                               >
                                 <path
