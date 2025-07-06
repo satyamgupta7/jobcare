@@ -156,21 +156,21 @@ export default function ExpressPlacementPage() {
                 <div className="text-3xl font-bold text-orange-600">12 Days</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Software Engineer</div>
               </div>
-              <p className="text-center text-gray-600 dark:text-gray-400">"Got placed as a Software Engineer in just 12 days. Amazing service!"</p>
+              <p className="text-center text-gray-600 dark:text-gray-400">&quot;Got placed as a Software Engineer in just 12 days. Amazing service!&quot;</p>
             </div>
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-900">
               <div className="mb-4 text-center">
                 <div className="text-3xl font-bold text-orange-600">10 Days</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Marketing Manager</div>
               </div>
-              <p className="text-center text-gray-600 dark:text-gray-400">"Express service delivered exactly as promised. Highly recommended!"</p>
+              <p className="text-center text-gray-600 dark:text-gray-400">&quot;Express service delivered exactly as promised. Highly recommended!&quot;</p>
             </div>
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-900">
               <div className="mb-4 text-center">
                 <div className="text-3xl font-bold text-orange-600">14 Days</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">HR Executive</div>
               </div>
-              <p className="text-center text-gray-600 dark:text-gray-400">"Professional service with guaranteed results. Worth every penny!"</p>
+              <p className="text-center text-gray-600 dark:text-gray-400">&quot;Professional service with guaranteed results. Worth every penny!&quot;</p>
             </div>
           </div>
         </div>

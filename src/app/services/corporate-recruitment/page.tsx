@@ -22,7 +22,7 @@ export default function CorporateRecruitmentPage() {
               Find the Right <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">Talent</span> for Your Company
             </h1>
             <p className="mb-8 text-xl text-gray-600 dark:text-gray-300">
-              Partner with Patna's leading recruitment consultancy. We connect your company with pre-screened, qualified candidates across all industries.
+              Partner with Patna&apos;s leading recruitment consultancy. We connect your company with pre-screened, qualified candidates across all industries.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Link href="#contact" className="rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-8 py-4 font-semibold text-white transition-all hover:scale-105">
