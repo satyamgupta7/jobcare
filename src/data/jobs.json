@@ -1,0 +1,236 @@
+[
+  {
+    "id": 1,
+    "title": "Computer Operator",
+    "company": "InfoSystems",
+    "location": "Patna",
+    "salary": "₹12,000/month",
+    "experience": "0-1 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 2,
+    "title": "Data Entry Operator",
+    "company": "DataCorp",
+    "location": "Patna",
+    "salary": "₹10,000/month",
+    "experience": "0-1 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 3,
+    "title": "Accountant",
+    "company": "FinanceHub",
+    "location": "Patna",
+    "salary": "₹18,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 4,
+    "title": "MIS Executive",
+    "company": "TechCorp",
+    "location": "Patna",
+    "salary": "₹20,000/month",
+    "experience": "1-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 5,
+    "title": "Marketing Executive",
+    "company": "BrandPlus",
+    "location": "Patna",
+    "salary": "₹15,000/month",
+    "experience": "0-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 6,
+    "title": "Supervisor",
+    "company": "ManufacturingCorp",
+    "location": "Patna",
+    "salary": "₹22,000/month",
+    "experience": "2-4 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 7,
+    "title": "Receptionist",
+    "company": "MediCare Hospital",
+    "location": "Patna",
+    "salary": "₹12,000/month",
+    "experience": "0-1 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 8,
+    "title": "Teacher",
+    "company": "EduCare School",
+    "location": "Patna",
+    "salary": "₹25,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 9,
+    "title": "Civil Engineer",
+    "company": "ConstructCorp",
+    "location": "Patna",
+    "salary": "₹30,000/month",
+    "experience": "2-5 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 10,
+    "title": "Software Engineer",
+    "company": "DevSolutions",
+    "location": "Patna",
+    "salary": "₹35,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 11,
+    "title": "Mechanical Engineer",
+    "company": "EngineerPro",
+    "location": "Patna",
+    "salary": "₹28,000/month",
+    "experience": "2-4 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 12,
+    "title": "HR Manager",
+    "company": "GlobalTech",
+    "location": "Patna",
+    "salary": "₹35,000/month",
+    "experience": "3-5 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 13,
+    "title": "HR Marketing",
+    "company": "PeopleFirst",
+    "location": "Patna",
+    "salary": "₹20,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 14,
+    "title": "Cashier",
+    "company": "RetailMax",
+    "location": "Patna",
+    "salary": "₹12,000/month",
+    "experience": "0-1 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 15,
+    "title": "Salesman",
+    "company": "SalesForce Ltd",
+    "location": "Patna",
+    "salary": "₹15,000/month",
+    "experience": "0-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 16,
+    "title": "Salesgirl",
+    "company": "FashionHub",
+    "location": "Patna",
+    "salary": "₹14,000/month",
+    "experience": "0-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 17,
+    "title": "MR (Medical Representative)",
+    "company": "PharmaCorp",
+    "location": "Patna",
+    "salary": "₹25,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 18,
+    "title": "CRM Executive",
+    "company": "CustomerCare",
+    "location": "Patna",
+    "salary": "₹18,000/month",
+    "experience": "1-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 19,
+    "title": "ASM (Area Sales Manager)",
+    "company": "SalesHub",
+    "location": "Patna",
+    "salary": "₹40,000/month",
+    "experience": "3-5 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 20,
+    "title": "Graphic Designer",
+    "company": "DesignStudio",
+    "location": "Patna",
+    "salary": "₹20,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 21,
+    "title": "Hardware Engineer",
+    "company": "TechFix",
+    "location": "Patna",
+    "salary": "₹22,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 22,
+    "title": "House Helper",
+    "company": "HomeServices",
+    "location": "Patna",
+    "salary": "₹8,000/month",
+    "experience": "0-1 years",
+    "type": "Part-time"
+  },
+  {
+    "id": 23,
+    "title": "Baby Care",
+    "company": "CaregiverPlus",
+    "location": "Patna",
+    "salary": "₹10,000/month",
+    "experience": "0-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 24,
+    "title": "Driver",
+    "company": "LogiTrans",
+    "location": "Patna",
+    "salary": "₹15,000/month",
+    "experience": "1-3 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 25,
+    "title": "Cook",
+    "company": "Hotel Paradise",
+    "location": "Patna",
+    "salary": "₹12,000/month",
+    "experience": "1-2 years",
+    "type": "Full-time"
+  },
+  {
+    "id": 26,
+    "title": "Security Guard",
+    "company": "SecureTech",
+    "location": "Patna",
+    "salary": "₹11,000/month",
+    "experience": "0-1 years",
+    "type": "Full-time"
+  }
+]

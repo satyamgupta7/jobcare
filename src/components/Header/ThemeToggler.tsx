@@ -1,7 +1,15 @@
 import { useTheme } from "next-themes";
+import { useEffect } from "react";
 
 const ThemeToggler = () => {
   const { theme, setTheme } = useTheme();
+  
+  useEffect(() => {
+    // Force light theme as default on first load
+    if (!theme) {
+      setTheme('light');
+    }
+  }, [theme, setTheme]);
   return (
     <button aria-label='theme toggler'
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}

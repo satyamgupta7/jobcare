@@ -51,11 +51,24 @@ const Header = () => {
                 sticky ? "py-4 lg:py-3" : "py-6"
               } `}
             >
-              <div className="flex items-center space-x-2">
-                <span className="text-2xl font-bold text-white">JobCare</span>
-                <span className="text-sm font-semibold text-white">
-                  Consultancy
-                </span>
+              <div className="flex items-center space-x-3">
+                {/* Logo Icon */}
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg">
+                  <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 6h-2V4c0-1.11-.89-2-2-2H8c-1.11 0-2 .89-2 2v2H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zM8 4h8v2H8V4zm12 15H4V8h16v11z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                  </svg>
+                </div>
+                
+                {/* Company Name */}
+                <div className="flex flex-col">
+                  <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-2xl font-bold text-transparent dark:from-blue-400 dark:to-cyan-400">
+                    JobCare
+                  </span>
+                  <span className="-mt-1 text-xs font-medium tracking-wider text-gray-600 dark:text-gray-400">
+                    CONSULTANCY
+                  </span>
+                </div>
               </div>
             </Link>
           </div>
