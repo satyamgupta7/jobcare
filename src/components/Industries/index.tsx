@@ -16,29 +16,29 @@ const industries = [
 
 const Industries = () => {
   return (
-    <section className="py-12 bg-gradient-to-r from-slate-100 via-gray-50 to-slate-100 dark:from-gray-800 dark:via-slate-900 dark:to-gray-800">
+    <section className="bg-gradient-to-r from-slate-100 via-gray-50 to-slate-100 py-12 dark:from-gray-800 dark:via-slate-900 dark:to-gray-800">
       <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
             Industries We Serve
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
             Connecting talent with opportunities across diverse sectors
           </p>
         </div>
-        
+
         {/* Scrolling Industries */}
         <div className="relative overflow-hidden">
-          <div className="flex animate-scroll space-x-8">
+          <div className="animate-scroll flex space-x-8">
             {[...industries, ...industries].map((industry, index) => (
               <div key={index} className="flex-shrink-0 text-center">
-                <div className="w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="mx-auto mb-3 h-24 w-24 overflow-hidden rounded-full shadow-lg transition-shadow duration-300 hover:shadow-xl">
                   <Image
                     src={industry.image}
                     alt={industry.name}
                     width={96}
                     height={96}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
                   />
                 </div>
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -49,7 +49,7 @@ const Industries = () => {
           </div>
         </div>
       </div>
-      
+
       <style jsx>{`
         @keyframes scroll {
           0% {
@@ -59,13 +59,15 @@ const Industries = () => {
             transform: translateX(-50%);
           }
         }
-        
+
         .animate-scroll {
-          animation: scroll 15s linear infinite;
+          animation: scroll 8s linear infinite;
         }
-        
-        .animate-scroll:hover {
-          animation-play-state: paused;
+
+        @media (min-width: 768px) {
+          .animate-scroll {
+            animation: scroll 12s linear infinite;
+          }
         }
       `}</style>
     </section>

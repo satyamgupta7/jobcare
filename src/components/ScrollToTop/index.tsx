@@ -1,96 +1,254 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { FaInstagram, FaWhatsapp, FaPhone } from "react-icons/fa";
+import { IoChatbubbleEllipses, IoClose, IoSend } from "react-icons/io5";
+
+// Constants
+const CONTACT_INFO = {
+  phone: "7979733414",
+  instagram: "https://www.instagram.com/jobcare.patna?igsh=cGpsdmU5MG92Y3Zi",
+  whatsappMessage: "Hi! I'm interested in your job placement services. Can you help me find suitable job opportunities?"
+};
+
+const INITIAL_MESSAGE = { text: "👋 Hello! Ask me about jobs, placement process, or timeline.", isBot: true };
+
+// Bot response logic
+const getBotResponse = (query, phoneNumber) => {
+  const lowerQuery = query.toLowerCase();
+  
+  const responses = {
+    whatsapp: () => `📱 WhatsApp Number: +91 ${phoneNumber}\nClick the WhatsApp icon on the right to chat directly!`,
+    call: () => `📞 Call Us: +91 ${phoneNumber}\nClick the call icon on the right to dial directly!`,
+    jobs: () => "We have 50+ job openings in IT, Banking, Healthcare, BPO, and more industries. Check our job portal for current listings!",
+    process: () => "Our process: 1) Submit your resume 2) Profile matching 3) Interview preparation 4) Job placement. Contact us for personalized assistance!",
+    timeline: () => "Average placement time is 15 days! With our 500+ partner companies and 98% success rate, we ensure quick job placement.",
+    salary: () => "Salary ranges from ₹10,000 to ₹55,000+ per month depending on role and experience. We also help with salary negotiations!",
+    default: () => "I can help with job availability, placement process, timeline, and salary info. For detailed assistance, contact us via WhatsApp!"
+  };
+
+  if (lowerQuery.includes("whatsapp") || lowerQuery.includes("whats app")) return responses.whatsapp();
+  if (["call", "phone", "mobile", "number"].some(term => lowerQuery.includes(term))) return responses.call();
+  if (["job", "available"].some(term => lowerQuery.includes(term))) return responses.jobs();
+  if (lowerQuery.includes("how") && ["get", "find"].some(term => lowerQuery.includes(term))) return responses.process();
+  if (["day", "time", "long"].some(term => lowerQuery.includes(term))) return responses.timeline();
+  if (["salary", "pay"].some(term => lowerQuery.includes(term))) return responses.salary();
+  
+  return responses.default();
+};
+
+// Icon component with tooltip
+const IconButton = ({ onClick, ariaLabel, className, children, size = "md", tooltip, tooltipSide = "left" }) => {
+  const sizeClasses = size === "sm" ? "h-8 w-8 md:h-10 md:w-10" : "h-10 w-10 md:h-12 md:w-12";
+  const tooltipPosition = tooltipSide === "left" ? "right-full mr-2" : "left-full ml-2";
+  
+  return (
+    <div className="relative group">
+      <div
+        onClick={onClick}
+        aria-label={ariaLabel}
+        className={`flex cursor-pointer items-center justify-center rounded-full shadow-lg transition duration-300 ease-in-out hover:scale-110 ${sizeClasses} ${className}`}
+      >
+        {children}
+      </div>
+      {tooltip && (
+        <div className={`absolute ${tooltipPosition} top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50`}>
+          <div className="bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+            {tooltip}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+
+// Chatbot Modal Component
+const ChatbotModal = ({ showChatbot, setShowChatbot, messages, inputText, setInputText, onSendMessage }) => {
+  if (!showChatbot) return null;
+
+  return (
+    <div className="fixed bottom-20 left-4 z-[9999] md:bottom-24 md:left-8">
+      <div className="w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700">
+          <div className="flex items-center space-x-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-600">
+              <IoChatbubbleEllipses className="h-4 w-4 text-white" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900 dark:text-white">AI Assistant</h3>
+              <p className="text-xs text-green-500">Online</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowChatbot(false)}
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+          >
+            <IoClose className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Messages */}
+        <div className="max-h-64 space-y-3 overflow-y-auto p-4">
+          {messages.map((message, index) => (
+            <div key={index} className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
+              <div className={`max-w-[80%] rounded-lg p-3 text-sm ${
+                message.isBot
+                  ? "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+                  : "bg-blue-500 text-white"
+              }`}>
+                {message.text}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Input */}
+        <div className="border-t border-gray-200 p-4 dark:border-gray-700">
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && onSendMessage()}
+              placeholder="Ask about jobs, process, timeline..."
+              className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            />
+            <button
+              onClick={onSendMessage}
+              className="rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
+            >
+              <IoSend className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-  const phoneNumber = "7979733414";
-  const instagramUrl = "https://www.instagram.com/jobcare.patna?igsh=cGpsdmU5MG92Y3Zi";
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [messages, setMessages] = useState([INITIAL_MESSAGE]);
+  const [inputText, setInputText] = useState("");
 
-  // Top: 0 takes us all the way back to the top of the page
-  // Behavior: smooth keeps it smooth!
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  // Memoized handlers
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
-  const handleWhatsApp = () => {
-    window.open(`https://wa.me/91${phoneNumber}`, '_blank');
-  };
+  const handleWhatsApp = useCallback(() => {
+    window.open(
+      `https://wa.me/91${CONTACT_INFO.phone}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`,
+      "_blank"
+    );
+  }, []);
 
-  const handleCall = () => {
-    window.open(`tel:+91${phoneNumber}`);
-  };
+  const handleCall = useCallback(() => {
+    window.open(`tel:+91${CONTACT_INFO.phone}`);
+  }, []);
 
-  const handleInstagram = () => {
-    window.open(instagramUrl, '_blank');
-  };
+  const handleInstagram = useCallback(() => {
+    window.open(CONTACT_INFO.instagram, "_blank");
+  }, []);
 
+  const handleAIChat = useCallback(() => {
+    setShowChatbot(prev => !prev);
+  }, []);
+
+  const handleSendMessage = useCallback(() => {
+    if (!inputText.trim()) return;
+
+    const userMessage = { text: inputText, isBot: false };
+    const botResponse = { text: getBotResponse(inputText, CONTACT_INFO.phone), isBot: true };
+
+    setMessages(prev => [...prev, userMessage, botResponse]);
+    setInputText("");
+  }, [inputText]);
+
+  // Scroll visibility effect
   useEffect(() => {
-    // Button is displayed after scrolling for 500 pixels
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
     window.addEventListener("scroll", toggleVisibility);
-
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
+  // Memoized social icons data
+  const socialIcons = useMemo(() => [
+    {
+      onClick: handleInstagram,
+      ariaLabel: "Instagram",
+      className: "bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-600 hover:to-purple-700",
+      icon: FaInstagram,
+      tooltip: "Follow Us"
+    },
+    {
+      onClick: handleWhatsApp,
+      ariaLabel: "WhatsApp",
+      className: "bg-green-500 text-white hover:bg-green-600",
+      icon: FaWhatsapp,
+      tooltip: "Chat with Us"
+    },
+    {
+      onClick: handleCall,
+      ariaLabel: "Call",
+      className: "bg-blue-500 text-white hover:bg-blue-600",
+      icon: FaPhone,
+      tooltip: "Call Us"
+    }
+  ], [handleInstagram, handleWhatsApp, handleCall]);
+
   return (
     <>
-      {/* Scroll to Top - Left Side */}
-      <div className="fixed left-8 bottom-8 z-99">
-        {isVisible && (
-          <div
-            onClick={scrollToTop}
-            aria-label="scroll to top"
-            className="bg-primary/80 hover:shadow-signUp flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-white shadow-md transition duration-300 ease-in-out"
+      <ChatbotModal
+        showChatbot={showChatbot}
+        setShowChatbot={setShowChatbot}
+        messages={messages}
+        inputText={inputText}
+        setInputText={setInputText}
+        onSendMessage={handleSendMessage}
+      />
+
+      {/* Left Side Icons */}
+      <div className="fixed bottom-4 left-4 z-99 md:bottom-8 md:left-8">
+        <div className="flex flex-col space-y-2 md:space-y-3">
+          <IconButton
+            onClick={handleAIChat}
+            ariaLabel="AI Chatbot"
+            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700"
+            tooltip="AI Assistant"
+            tooltipSide="right"
           >
-            <span className="mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"></span>
-          </div>
-        )}
+            <IoChatbubbleEllipses className="h-5 w-5 md:h-6 md:w-6" />
+          </IconButton>
+
+          {isVisible && (
+            <IconButton
+              onClick={scrollToTop}
+              ariaLabel="scroll to top"
+              className="bg-primary/80 hover:shadow-signUp text-white shadow-md rounded-md"
+              size="sm"
+              tooltip="Scroll to Top"
+              tooltipSide="right"
+            >
+              <span className="mt-[4px] h-2 w-2 rotate-45 border-t border-l border-white md:mt-[6px] md:h-3 md:w-3" />
+            </IconButton>
+          )}
+        </div>
       </div>
 
-      {/* Social Icons - Right Side */}
-      <div className="fixed right-8 bottom-8 z-99">
-        <div className="flex flex-col space-y-3">
-          {/* Instagram */}
-          <div
-            onClick={handleInstagram}
-            aria-label="Instagram"
-            className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full text-white shadow-lg transition duration-300 ease-in-out hover:scale-110"
-          >
-            <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-
-          {/* WhatsApp */}
-          <div
-            onClick={handleWhatsApp}
-            aria-label="WhatsApp"
-            className="bg-green-500 hover:bg-green-600 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full text-white shadow-lg transition duration-300 ease-in-out hover:scale-110"
-          >
-            <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-            </svg>
-          </div>
-
-          {/* Call */}
-          <div
-            onClick={handleCall}
-            aria-label="Call"
-            className="bg-blue-500 hover:bg-blue-600 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full text-white shadow-lg transition duration-300 ease-in-out hover:scale-110"
-          >
-            <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-            </svg>
-          </div>
+      {/* Right Side Icons */}
+      <div className="fixed bottom-4 right-4 z-99 md:bottom-8 md:right-8">
+        <div className="flex flex-col space-y-2 md:space-y-3">
+          {socialIcons.map((iconData, index) => {
+            const IconComponent = iconData.icon;
+            return (
+              <IconButton key={index} onClick={iconData.onClick} ariaLabel={iconData.ariaLabel} className={iconData.className} tooltip={iconData.tooltip}>
+                <IconComponent className="h-5 w-5 md:h-6 md:w-6" />
+              </IconButton>
+            );
+          })}
         </div>
       </div>
     </>

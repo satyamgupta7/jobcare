@@ -1,15 +1,32 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import jobsData from "@/data/jobs.json";
 
-const Hero = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [location, setLocation] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const [jobs, setJobs] = useState([]);
-  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
+// Constants
+const LOCATIONS = [
+  "Patna",
+  "Muzaffarpur",
+  "Hajipur",
+  "Danapur",
+  "Gaya",
+  "Begusarai",
+  "Samastipur",
+  "Chapra",
+  "Arrah",
+  "Bihta",
+];
+
+const COUNTER_TARGETS = {
+  jobs: 5000,
+  companies: 500,
+  success: 98,
+  industries: 15,
+};
+const ANIMATION_CONFIG = { duration: 2000, steps: 60 };
+
+// Custom hook for counter animation
+const useCounterAnimation = () => {
   const [counters, setCounters] = useState({
     jobs: 0,
     companies: 0,
@@ -18,107 +35,158 @@ const Hero = () => {
   });
   const [hasAnimated, setHasAnimated] = useState(false);
 
-  const locations = [
-    "Patna",
-    "Muzaffarpur",
-    "Hajipur",
-    "Danapur",
-    "Gaya",
-    "Begusarai",
-    "Samastipur",
-    "Chapra",
-    "Arrah",
-    "Bihta",
-  ];
-
   useEffect(() => {
-    setJobs(jobsData);
-  }, []);
+    if (hasAnimated) return;
 
-  useEffect(() => {
-    if (!hasAnimated) {
-      const targets = {
-        jobs: 5000,
-        companies: 500,
-        success: 98,
-        industries: 15,
-      };
-      const duration = 2000;
-      const steps = 60;
-      const stepDuration = duration / steps;
+    const { duration, steps } = ANIMATION_CONFIG;
+    const stepDuration = duration / steps;
+    let currentStep = 0;
 
-      let currentStep = 0;
-      const timer = setInterval(() => {
-        currentStep++;
-        const progress = currentStep / steps;
+    const timer = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
 
-        setCounters({
-          jobs: Math.floor(targets.jobs * progress),
-          companies: Math.floor(targets.companies * progress),
-          success: Math.floor(targets.success * progress),
-          industries: Math.floor(targets.industries * progress),
-        });
+      setCounters({
+        jobs: Math.floor(COUNTER_TARGETS.jobs * progress),
+        companies: Math.floor(COUNTER_TARGETS.companies * progress),
+        success: Math.floor(COUNTER_TARGETS.success * progress),
+        industries: Math.floor(COUNTER_TARGETS.industries * progress),
+      });
 
-        if (currentStep >= steps) {
-          clearInterval(timer);
-          setCounters(targets);
-          setHasAnimated(true);
-        }
-      }, stepDuration);
+      if (currentStep >= steps) {
+        clearInterval(timer);
+        setCounters(COUNTER_TARGETS);
+        setHasAnimated(true);
+      }
+    }, stepDuration);
 
-      return () => clearInterval(timer);
-    }
+    return () => clearInterval(timer);
   }, [hasAnimated]);
 
-  const handleSearch = () => {
-    const filtered = jobs.filter(
+  return counters;
+};
+
+// Background component
+const BackgroundElements = () => (
+  <>
+    <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(59,130,246,0.02)_25%,rgba(59,130,246,0.02)_50%,transparent_50%,transparent_75%,rgba(59,130,246,0.02)_75%)] bg-[length:60px_60px]" />
+    <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute -top-40 -left-40 h-80 w-80 animate-pulse rounded-full bg-gradient-to-r from-blue-400/30 to-cyan-400/30 blur-3xl" />
+      <div
+        className="absolute -top-20 -right-20 h-96 w-96 animate-pulse rounded-full bg-gradient-to-r from-purple-400/20 to-pink-400/20 blur-3xl"
+        style={{ animationDelay: "1s" }}
+      />
+      <div
+        className="absolute top-1/3 left-1/4 h-64 w-64 animate-bounce rounded-full bg-gradient-to-r from-orange-300/25 to-yellow-300/25 blur-2xl"
+        style={{ animationDelay: "3s" }}
+      />
+      <div
+        className="absolute right-1/4 bottom-20 h-72 w-72 animate-pulse rounded-full bg-gradient-to-r from-emerald-400/20 to-teal-400/20 blur-3xl"
+        style={{ animationDelay: "2s" }}
+      />
+      <div className="absolute top-1/4 right-1/3 h-4 w-4 animate-ping rounded-full bg-blue-400/60" />
+      <div
+        className="absolute top-3/4 left-1/3 h-3 w-3 animate-ping rounded-full bg-cyan-400/60"
+        style={{ animationDelay: "1.5s" }}
+      />
+      <div
+        className="absolute top-1/2 right-1/4 h-2 w-2 animate-ping rounded-full bg-purple-400/60"
+        style={{ animationDelay: "2.5s" }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.1)_1px,transparent_0)] bg-[length:50px_50px] opacity-30" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-orange-50/50" />
+    </div>
+  </>
+);
+
+// Stats component
+const StatsSection = ({ counters }) => {
+  const stats = [
+    {
+      value: counters.jobs.toLocaleString() + "+",
+      label: "Jobs Placed",
+      color: "text-cyan-400",
+    },
+    {
+      value: counters.companies + "+",
+      label: "Companies",
+      color: "text-green-400",
+    },
+    {
+      value: counters.success + "%",
+      label: "Success Rate",
+      color: "text-purple-400",
+    },
+    {
+      value: counters.industries + "+",
+      label: "Industries",
+      color: "text-orange-400",
+    },
+  ];
+
+  return (
+    <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+      {stats.map((stat, index) => (
+        <div key={index} className="text-center">
+          <div className={`mb-1 text-2xl font-bold md:text-3xl ${stat.color}`}>
+            {stat.value}
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {stat.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const Hero = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [location, setLocation] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
+
+  const counters = useCounterAnimation();
+
+  // Memoized filtered locations
+  const filteredLocations = useMemo(
+    () =>
+      LOCATIONS.filter((loc) =>
+        loc.toLowerCase().includes(location.toLowerCase()),
+      ),
+    [location],
+  );
+
+  // Optimized search handler
+  const handleSearch = useCallback(() => {
+    const filtered = jobsData.filter(
       (job) =>
         job.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
         job.location.toLowerCase().includes(location.toLowerCase()),
     );
     setSearchResults(filtered);
     setShowResults(true);
-  };
+  }, [searchQuery, location]);
+
+  const handleLocationSelect = useCallback((selectedLocation) => {
+    setLocation(selectedLocation);
+    setShowLocationDropdown(false);
+  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-white via-orange-50 to-amber-50 dark:from-gray-900 dark:via-slate-900 dark:to-black">
-      {/* Background Patterns */}
-      <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(59,130,246,0.02)_25%,rgba(59,130,246,0.02)_50%,transparent_50%,transparent_75%,rgba(59,130,246,0.02)_75%)] bg-[length:60px_60px]"></div>
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Orbs & Shapes */}
-        <div className="absolute -top-40 -left-40 h-80 w-80 animate-pulse rounded-full bg-gradient-to-r from-blue-400/30 to-cyan-400/30 blur-3xl"></div>
-        <div
-          className="absolute -top-20 -right-20 h-96 w-96 animate-pulse rounded-full bg-gradient-to-r from-purple-400/20 to-pink-400/20 blur-3xl"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute top-1/3 left-1/4 h-64 w-64 animate-bounce rounded-full bg-gradient-to-r from-orange-300/25 to-yellow-300/25 blur-2xl"
-          style={{ animationDelay: "3s" }}
-        ></div>
-        <div
-          className="absolute right-1/4 bottom-20 h-72 w-72 animate-pulse rounded-full bg-gradient-to-r from-emerald-400/20 to-teal-400/20 blur-3xl"
-          style={{ animationDelay: "2s" }}
-        ></div>
-        <div className="absolute top-1/4 right-1/3 h-4 w-4 animate-ping rounded-full bg-blue-400/60"></div>
-        <div
-          className="absolute top-3/4 left-1/3 h-3 w-3 animate-ping rounded-full bg-cyan-400/60"
-          style={{ animationDelay: "1.5s" }}
-        ></div>
-        <div
-          className="absolute top-1/2 right-1/4 h-2 w-2 animate-ping rounded-full bg-purple-400/60"
-          style={{ animationDelay: "2.5s" }}
-        ></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.1)_1px,transparent_0)] bg-[length:50px_50px] opacity-30"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-orange-50/50"></div>
-      </div>
+      <BackgroundElements />
 
       <div className="relative container mx-auto flex min-h-screen items-center justify-center px-4 pt-24 pb-16">
         <div className="mx-auto w-full max-w-4xl text-center">
+          {/* Badge */}
           <div className="mb-4 inline-flex items-center rounded-full border border-cyan-500/20 bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600 backdrop-blur-sm dark:bg-gray-800/30 dark:text-cyan-400">
-            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-green-400"></span>
+            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-green-400" />
             #1 Job Consultancy in Patna
           </div>
 
+          {/* Heading */}
           <h1 className="mb-3 text-3xl leading-tight font-bold text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
             Find Your Dream Career Today
           </h1>
@@ -128,10 +196,10 @@ const Hero = () => {
           </p>
 
           {/* Search Container */}
-          <div className="relative z-50 mx-auto mb-6 max-w-4xl">
+          <div className="relative z-10 mx-auto mb-6 max-w-4xl">
             <div className="rounded-3xl border border-white/20 bg-white/90 p-6 shadow-2xl backdrop-blur-md dark:border-gray-700/30 dark:bg-gray-800/90">
               <div className="grid gap-4 md:grid-cols-3">
-                {/* Job Title */}
+                {/* Job Title Input */}
                 <div className="group relative">
                   <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Job Title
@@ -154,7 +222,7 @@ const Hero = () => {
                     </div>
                     <input
                       type="text"
-                      placeholder="e.g. Software Engineer, Accountant..."
+                      placeholder="e.g. Accountant, Teacher..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full rounded-xl border-2 border-gray-200 bg-white py-3 pr-4 pl-12 text-gray-900 placeholder-gray-400 transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
@@ -217,24 +285,22 @@ const Hero = () => {
                     </div>
 
                     {showLocationDropdown && (
-                      <div className="absolute top-full right-0 left-0 z-[99999] mt-1 max-h-60 overflow-auto rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-600 dark:bg-gray-700">
-                        {locations
-                          .filter((loc) =>
-                            loc.toLowerCase().includes(location.toLowerCase()),
-                          )
-                          .map((loc, index) => (
-                            <div
-                              key={index}
-                              onMouseDown={(e) => {
-                                e.preventDefault();
-                                setLocation(loc);
-                                setShowLocationDropdown(false);
-                              }}
-                              className="cursor-pointer px-4 py-3 text-gray-900 hover:bg-blue-50 dark:text-white dark:hover:bg-gray-600"
-                            >
-                              {loc}
-                            </div>
-                          ))}
+                      <div
+                        className="absolute top-full right-0 left-0 mt-1 max-h-60 overflow-auto rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-600 dark:bg-gray-700"
+                        style={{ zIndex: 2147483647 }}
+                      >
+                        {filteredLocations.map((loc, index) => (
+                          <div
+                            key={index}
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              handleLocationSelect(loc);
+                            }}
+                            className="cursor-pointer px-4 py-3 text-gray-900 transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl hover:bg-blue-50 dark:text-white dark:hover:bg-gray-600"
+                          >
+                            {loc}
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -265,46 +331,12 @@ const Hero = () => {
                       </svg>
                       Search Jobs
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   </button>
                 </div>
               </div>
 
-              {/* Animated Stats Section */}
-              <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-                <div className="text-center">
-                  <div className="mb-1 text-2xl font-bold text-cyan-400 md:text-3xl">
-                    {counters.jobs.toLocaleString()}+
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Jobs Placed
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="mb-1 text-2xl font-bold text-green-400 md:text-3xl">
-                    {counters.companies}+
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Companies
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="mb-1 text-2xl font-bold text-purple-400 md:text-3xl">
-                    {counters.success}%
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Success Rate
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="mb-1 text-2xl font-bold text-orange-400 md:text-3xl">
-                    {counters.industries}+
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Industries
-                  </div>
-                </div>
-              </div>
+              <StatsSection counters={counters} />
             </div>
 
             {/* Search Results */}
@@ -364,8 +396,8 @@ const Hero = () => {
             )}
           </div>
 
-          {/* CTA Buttons - Lower Z-index */}
-          <div className="z-0 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          {/* CTA Buttons */}
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="#contact"
               className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 font-semibold text-white hover:scale-105"
